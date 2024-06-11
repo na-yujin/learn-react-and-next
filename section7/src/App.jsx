@@ -2,7 +2,7 @@ import './App.css'
 import Header from "./components/Header.jsx";
 import TodoEditor from "./components/TodoEditor.jsx";
 import TodoList from "./components/TodoList.jsx";
-import {useReducer, useRef, useState} from "react";
+import {useCallback, useReducer, useRef} from "react";
 
 const mockData = [
   {
@@ -48,12 +48,6 @@ function App() {
   const idRef = useRef(3)
 
   const onCreate = (content) => {
-    // const newTodo = {
-    //   id: idRef.current++,
-    //   isDone: false,
-    //   content,
-    //   createdDate: new Date().getTime()
-    // }
     dispatch({
       type: "CREATE",
       data: {
@@ -63,30 +57,21 @@ function App() {
         createdDate: new Date().getTime()
       }
     })
-    // setTodos([newTodo, ...todos])
   }
 
-  const onUpdate = (targetId) => {
-    // setTodos(
-    //   todos.map((todo) => todo.id === targetId
-    //     ? {...todo, isDone: !todo.isDone}
-    //     : todo)
-    // )
+  const onUpdate = useCallback((targetId) => {
     dispatch({
       type: "UPDATE",
       data: targetId
     })
-  }
+  },[])
 
-  const onDelete = (targetId) => {
-    // setTodos(
-    //   todos.filter((todo) => todo.id !== targetId)
-    // )
+  const onDelete = useCallback((targetId) => {
     dispatch({
       type: "DELETE",
       data:targetId
     })
-  }
+  },[])
 
   return (
     <div className="App">
