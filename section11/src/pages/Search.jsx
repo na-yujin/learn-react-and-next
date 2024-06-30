@@ -1,9 +1,12 @@
 import {useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {fetchSearchResults} from "../api.js";
+import Searchbar from "../components/Searchbar.jsx";
+import ContryList from "../components/ContryList.jsx";
+import style from "./Search.module.css"
 
 export default function Search() {
-  const [searchParams, _setSearchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const q = searchParams.get('q')
 
   const [countries, setCountries] = useState([])
@@ -17,5 +20,13 @@ export default function Search() {
     setInitData()
   }, [q]);
 
-  return <div><h1>Search {q}</h1></div>
+  return (
+    <div className={style.container}>
+      <Searchbar q={q}/>
+      <div>
+        <b>{q}</b> 검색 결과
+      </div>
+      <ContryList countries={countries}/>
+    </div>
+  )
 }
